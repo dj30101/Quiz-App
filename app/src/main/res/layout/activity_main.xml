@@ -41,8 +41,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Welcome"
-                android:textColor="#363A43"
+                android:text="@string/welcome"
+                android:textColor="@color/grey"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -52,8 +52,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="Please enter your name."
-                android:textColor="#7A8089"
+                android:text="@string/enter_your_name"
+                android:textColor="@color/light_grey"
                 android:textSize="16sp" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -67,11 +67,11 @@
                     android:id="@+id/et_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Name"
+                    android:hint="@string/name"
                     android:imeOptions="actionGo"
                     android:inputType="textCapWords"
-                    android:textColor="#363A43"
-                    android:textColorHint="#7A8089" />
+                    android:textColor="@color/grey"
+                    android:textColorHint="@color/light_grey" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
@@ -79,8 +79,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@color/purple_500"
-                android:text="Start"
+                android:background="@color/colorPrimary"
+                android:text="@string/start"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
         </LinearLayout>
