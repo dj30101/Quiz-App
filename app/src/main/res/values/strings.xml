@@ -5,4 +5,7 @@
     <string name="name">Name</string>
     <string name="start">Start</string>
     <string name="submit">Submit</string>
+    <string name="result">Result</string>
+    <string name="congratulations">Hey, Congratulations!</string>
+    <string name="finish">Finish</string>
 </resources>

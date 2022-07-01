@@ -10,6 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Quizapp">
         <activity
+            android:name=".ResultActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarTheme" />
+        <activity
             android:name=".QuizQuestionsActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
