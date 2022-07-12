@@ -14,6 +14,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.quiz_app.databinding.ActivityQuizQuestionsBinding
 
+/**
+ * Static QuizQuestionActivity
+ */
 class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityQuizQuestionsBinding
 
@@ -23,6 +26,9 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private var mCorrectAnswers: Int = 0
     private var mUserName: String? = null
 
+    /**
+     * onCreate Method
+     */
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +38,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         mUserName = intent.getStringExtra("UserName")
 
         mQuestionsList = Constants.getQuestions()
-        Log.i("Questions size", "${mQuestionsList!!.size}")
+        Log.i("Questions size", "${(mQuestionsList ?: return).size}")
         setQuestion()
         setUpListeners()
 
@@ -41,11 +47,11 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     @SuppressLint("SetTextI18n")
     private fun setQuestion() {
 
-        val question: Question = mQuestionsList!![mCurrentPosition - 1]
+        val question: Question = (mQuestionsList ?: return)[mCurrentPosition - 1]
 
         defaultOptionsView()
 
-        if (mCurrentPosition == mQuestionsList!!.size) {
+        if (mCurrentPosition == (mQuestionsList ?: return).size) {
             binding.btnSubmit.text = "Finish"
         } else {
             binding.btnSubmit.text = "Submit"
@@ -90,6 +96,9 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
+    /**
+     * Implement OnClick Interface
+     */
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onClick(p0: View?) {
@@ -110,14 +119,14 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                 if (mSelectedOptionPosition == 0) {
                     mCurrentPosition++
                     when {
-                        mCurrentPosition <= mQuestionsList!!.size -> {
+                        mCurrentPosition <= (mQuestionsList ?: return).size -> {
                             setQuestion()
                         }
                         else -> {
                             val intent = Intent(this, ResultActivity::class.java)
                             intent.putExtra("UserName", mUserName)
                             intent.putExtra("CorrectAnswers", mCorrectAnswers)
-                            intent.putExtra("TotalQuestions", mQuestionsList!!.size)
+                            intent.putExtra("TotalQuestions", (mQuestionsList ?: return).size)
                             startActivity(intent)
                             finish()
                             Toast.makeText(
@@ -130,14 +139,14 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                 } else {
                     val question = mQuestionsList?.get(mCurrentPosition - 1)
 
-                    if (question!!.correctAnswer != mSelectedOptionPosition) {
+                    if ((question ?: return).correctAnswer != mSelectedOptionPosition) {
                         answerView(mSelectedOptionPosition, R.drawable.wrong_option_border_bg)
                     } else {
                         mCorrectAnswers++
                     }
                     answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
 
-                    if (mCurrentPosition == mQuestionsList!!.size) {
+                    if (mCurrentPosition == (mQuestionsList ?: return).size) {
                         binding.btnSubmit.text = getString(R.string.finish)
                     } else {
                         binding.btnSubmit.text = getString(R.string.nextQuestion)

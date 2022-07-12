@@ -9,7 +9,13 @@ import com.example.quiz_app.databinding.ActivityResultBinding
 
 private lateinit var binding: ActivityResultBinding
 
+/**
+ * ResultActivity -> To show Result
+ */
 class ResultActivity : AppCompatActivity() {
+    /**
+     * onCreate Method
+     */
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

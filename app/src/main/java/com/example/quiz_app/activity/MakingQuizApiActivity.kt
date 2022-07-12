@@ -19,6 +19,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * MakingQuizApiActivity -> Here Api Url for Quiz is build
+ */
 class MakingQuizApiActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMakingQuizApiBinding
@@ -26,17 +29,21 @@ class MakingQuizApiActivity : AppCompatActivity() {
     private var categoryList: ArrayList<CategoryModel>? = null
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var difficultyList: Array<out String>
-    var id: Int = 0
-    var difficulty: String = ""
-    var userName: String = ""
+
+    private var id: Int = 0
+    private var difficulty: String = ""
+    private var userName: String = ""
 
 
+    /**
+     * OnCreate Method
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMakingQuizApiBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        userName= intent.getStringExtra("UserName").toString()
+        userName = intent.getStringExtra("UserName").toString()
 
         retrofitApiInterface = ApiInterface.create()
         doApiCallCategory()
@@ -65,10 +72,13 @@ class MakingQuizApiActivity : AppCompatActivity() {
                         Gson().fromJson(response.body(), CategoryModelResponse::class.java)
 
                     categoryList = response.categories
-                    Log.e("size", "size + ${categoryList!!.size}")
+                    Log.e("size", "size + ${(categoryList ?: return).size}")
 
-                    categoryList!!.add(0, CategoryModel(0, "Any Category"))
-                    categoryAdapter = CategoryAdapter(this@MakingQuizApiActivity, categoryList!!)
+                    (categoryList ?: return).add(0, CategoryModel(0, "Any Category"))
+                    categoryAdapter = CategoryAdapter(
+                        this@MakingQuizApiActivity,
+                        categoryList ?: return
+                    )
                     binding.spinnerCategory.adapter = categoryAdapter
 
                 }
@@ -87,7 +97,7 @@ class MakingQuizApiActivity : AppCompatActivity() {
                 override fun onItemSelected(
                     p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long
                 ) {
-                    id = categoryList!![p2].id
+                    id = (categoryList ?: return)[p2].id
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -106,26 +116,33 @@ class MakingQuizApiActivity : AppCompatActivity() {
             }
 
         binding.btnSubmit.setOnClickListener {
-            if (binding.etNumberOfQuestion.text.toString().isEmpty()) {
-                Toast.makeText(
-                    this@MakingQuizApiActivity,
-                    "Please Enter number of Question.",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else if ((binding.etNumberOfQuestion.text.toString().toInt()) > 50) {
-                Toast.makeText(
-                    this@MakingQuizApiActivity,
-                    "Value must be less than or equal to 50.",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                val intent = Intent(this, DynamicQuizActivity::class.java)
-                intent.putExtra("UserName",userName)
-                intent.putExtra("NumberOfQuestion",binding.etNumberOfQuestion.text.toString().toInt())
-                intent.putExtra("CategoryId",id)
-                intent.putExtra("Difficulty",difficulty)
-                startActivity(intent)
-                finish()
+            when {
+                binding.etNumberOfQuestion.text.toString().isEmpty() -> {
+                    Toast.makeText(
+                        this@MakingQuizApiActivity,
+                        "Please Enter number of Question.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                (binding.etNumberOfQuestion.text.toString().toInt()) > 50 -> {
+                    Toast.makeText(
+                        this@MakingQuizApiActivity,
+                        "Value must be less than or equal to 50.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                else -> {
+                    val intent = Intent(this, DynamicQuizActivity::class.java)
+                    intent.putExtra("UserName", userName)
+                    intent.putExtra(
+                        "NumberOfQuestion",
+                        binding.etNumberOfQuestion.text.toString().toInt()
+                    )
+                    intent.putExtra("CategoryId", id)
+                    intent.putExtra("Difficulty", difficulty)
+                    startActivity(intent)
+                    finish()
+                }
             }
         }
     }

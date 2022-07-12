@@ -13,6 +13,9 @@ import retrofit2.http.Query
 import retrofit2.http.QueryMap
 import java.util.concurrent.TimeUnit
 
+/**
+ * API Interface
+ */
 interface ApiInterface {
     /*amount=10&category=21&difficulty=easy&type=multiple*/
 /*    @GET("api.php")
@@ -23,21 +26,30 @@ interface ApiInterface {
         @Query("type") type: String?
     ): Call<JsonObject>*/
 
+    /**
+     * getQuestion method -> to get Question from API
+     */
     @GET("api.php")
     fun getQuestion(
         @QueryMap info: HashMap<String, String>?
     ): Call<JsonObject>
 
+    /**
+     *  getCategories method -> to get CategoryList from API
+     */
     @GET("api_category.php")
     fun getCategories(
     ): Call<JsonObject>
 
     companion object {
 
-        private val baseUrl = "https://opentdb.com/"
+        private const val baseUrl = "https://opentdb.com/"
 
+        /**
+         * Create CLient
+         */
         fun create(): ApiInterface {
-            val interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor()
+            val interceptor = HttpLoggingInterceptor()
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 
             val gson: Gson = GsonBuilder().setLenient().create()

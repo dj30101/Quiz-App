@@ -9,24 +9,43 @@ import android.widget.TextView
 import com.example.quiz_app.R
 import com.example.quiz_app.model.CategoryModel
 
-class CategoryAdapter(val context: Context, private val categoryList: List<CategoryModel>) :
+/**
+ * CategoryAdapter -> Adapter for Spinner Category
+ */
+class CategoryAdapter(
+    /**
+     * Context of Respective Activity
+     */
+    val context: Context, private val categoryList: List<CategoryModel>) :
     BaseAdapter() {
 
     private val inflater: LayoutInflater =
         context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
+    /**
+     * Return Size of list
+     */
     override fun getCount(): Int {
         return if (categoryList.isEmpty()) 0 else categoryList.size
     }
 
+    /**
+     * Return Category from CategoryList at given position p0
+     */
     override fun getItem(p0: Int): Any {
         return categoryList[p0]
     }
 
+    /**
+     * Return Item Id
+     */
     override fun getItemId(p0: Int): Long {
         return p0.toLong()
     }
 
+    /**
+     * Show Spinner drop down View
+     */
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view: View
         val vh: ItemHolder

@@ -1,5 +1,8 @@
 package com.example.quiz_app
 
+/**
+ * Static Question Model
+ */
 data class Question(
     val id: Int,
     val question: String,

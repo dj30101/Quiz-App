@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -25,6 +24,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * DynamicQuizActivity -> Here Dynamic Quiz show
+ */
 class DynamicQuizActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityDynamicQuizBinding
@@ -40,6 +42,9 @@ class DynamicQuizActivity : AppCompatActivity(), View.OnClickListener {
     private var mCorrectAnswers: Int = 0
     private var correctAnswerPosition: Int = 0
 
+    /**
+     * OnCreate Method
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDynamicQuizBinding.inflate(layoutInflater)
@@ -63,7 +68,7 @@ class DynamicQuizActivity : AppCompatActivity(), View.OnClickListener {
             info["category"] = categoryId.toString()
         }
         if (!difficulty.equals("Any Difficulty")) {
-            info["difficulty"] = difficulty!!.lowercase()
+            info["difficulty"] = (difficulty ?: return).lowercase()
         }
         info["type"] = "multiple"
 
@@ -78,13 +83,12 @@ class DynamicQuizActivity : AppCompatActivity(), View.OnClickListener {
                         Gson().fromJson(response.body(), ApiResponse::class.java)
 
                     dynamicQuestionList = response.results
-                    Log.e("size", "size + ${dynamicQuestionList!!.size}")
+                    Log.e("size", "size + ${(dynamicQuestionList ?: return).size}")
 
-                    if (dynamicQuestionList!!.isNotEmpty()) {
+                    if ((dynamicQuestionList ?: return).isNotEmpty()) {
                         setQuestion()
                     }
                 }
-
 
             }
 
@@ -98,17 +102,17 @@ class DynamicQuizActivity : AppCompatActivity(), View.OnClickListener {
     @SuppressLint("SetTextI18n")
     private fun setQuestion() {
 
-        val question: DynamicQuestion = dynamicQuestionList!![mCurrentPosition - 1]
+        val question: DynamicQuestion = (dynamicQuestionList ?: return)[mCurrentPosition - 1]
 
         defaultOptionsView()
-        if (mCurrentPosition == dynamicQuestionList!!.size) {
+        if (mCurrentPosition == (dynamicQuestionList ?: return).size) {
             binding.btnSubmit.text = "Finish"
         } else {
             binding.btnSubmit.text = "Submit"
         }
-        binding.progressBar.max = dynamicQuestionList!!.size
+        binding.progressBar.max = (dynamicQuestionList ?: return).size
         binding.progressBar.progress = mCurrentPosition
-        binding.tvProgress.text = "$mCurrentPosition/${dynamicQuestionList!!.size}"
+        binding.tvProgress.text = "$mCurrentPosition/${(dynamicQuestionList ?: return).size}"
 
         binding.tvQuestion.text =
             HtmlCompat.fromHtml(question.question, HtmlCompat.FROM_HTML_MODE_LEGACY)
@@ -141,6 +145,9 @@ class DynamicQuizActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnSubmit.setOnClickListener(this)
     }
 
+    /**
+     * Implement OnClick Interface
+     */
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onClick(p0: View?) {
         when (p0?.id) {
@@ -160,14 +167,14 @@ class DynamicQuizActivity : AppCompatActivity(), View.OnClickListener {
                 if (mSelectedPosition == 0) {
                     mCurrentPosition++
                     when {
-                        mCurrentPosition <= dynamicQuestionList!!.size -> {
+                        mCurrentPosition <= (dynamicQuestionList ?: return).size -> {
                             setQuestion()
                         }
                         else -> {
                             val intent = Intent(this, ResultActivity::class.java)
                             intent.putExtra("UserName", mUserName)
                             intent.putExtra("CorrectAnswers", mCorrectAnswers)
-                            intent.putExtra("TotalQuestions", dynamicQuestionList!!.size)
+                            intent.putExtra("TotalQuestions", (dynamicQuestionList ?: return).size)
                             startActivity(intent)
                             finish()
                         }
@@ -181,7 +188,7 @@ class DynamicQuizActivity : AppCompatActivity(), View.OnClickListener {
                     }
                     answerView(correctAnswerPosition, R.drawable.correct_option_border_bg)
 
-                    if (mCurrentPosition == dynamicQuestionList!!.size) {
+                    if (mCurrentPosition == (dynamicQuestionList ?: return).size) {
                         binding.btnSubmit.text = getString(R.string.finish)
                     } else {
                         binding.btnSubmit.text = getString(R.string.nextQuestion)

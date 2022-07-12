@@ -1,7 +1,13 @@
 package com.example.quiz_app
 
+/**
+ * Constants -> static Question
+ */
 object Constants {
 
+    /**
+     * Get QuestionList
+     */
     fun getQuestions(): ArrayList<Question> {
         val questionsList = ArrayList<Question>()
 

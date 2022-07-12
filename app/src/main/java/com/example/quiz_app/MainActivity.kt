@@ -8,8 +8,15 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.quiz_app.activity.MakingQuizApiActivity
 import com.example.quiz_app.databinding.ActivityMainBinding
 
+/**
+ * MainActivity -> Launcher Activity
+ */
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
+    /**
+     * onCreate Method
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)

@@ -3,6 +3,9 @@ package com.example.quiz_app.model
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
+/**
+ * DynamicQuestion Model
+ */
 data class DynamicQuestion(
     @Expose @SerializedName("category") var category: String,
     @Expose @SerializedName("type") var type: String,
