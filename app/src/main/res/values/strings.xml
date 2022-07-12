@@ -8,4 +8,17 @@
     <string name="result">Result</string>
     <string name="congratulations">Hey, Congratulations!</string>
     <string name="finish">Finish</string>
+    <string name="noOfQuestion">Number of questions</string>
+    <string name="nextQuestion">Go to Next question</string>
+    <string name="selectCategory">Select Category</string>
+    <string name="selectDifficulty">Select Difficulty</string>
+    <string name="category">Category</string>
+    <string name="difficulty">Difficulty</string>
+
+    <string-array name="difficulty_array">
+        <item>Any Difficulty</item>
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Hard</item>
+    </string-array>
 </resources>

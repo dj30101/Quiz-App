@@ -4,13 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.quiz_app.databinding.ActivityQuizQuestionsBinding
 
@@ -29,7 +29,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityQuizQuestionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        mUserName= intent.getStringExtra(Constants.USER_NAME)
+        mUserName = intent.getStringExtra("UserName")
 
         mQuestionsList = Constants.getQuestions()
         Log.i("Questions size", "${mQuestionsList!!.size}")
@@ -114,10 +114,10 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                             setQuestion()
                         }
                         else -> {
-                            val intent = Intent(this,ResultActivity::class.java)
-                            intent.putExtra(Constants.USER_NAME,mUserName)
-                            intent.putExtra(Constants.CORRECT_ANSWERS,mCorrectAnswers)
-                            intent.putExtra(Constants.TOTAL_QUESTIONS,mQuestionsList!!.size)
+                            val intent = Intent(this, ResultActivity::class.java)
+                            intent.putExtra("UserName", mUserName)
+                            intent.putExtra("CorrectAnswers", mCorrectAnswers)
+                            intent.putExtra("TotalQuestions", mQuestionsList!!.size)
                             startActivity(intent)
                             finish()
                             Toast.makeText(
@@ -138,12 +138,11 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                     answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
 
                     if (mCurrentPosition == mQuestionsList!!.size) {
-                        binding.btnSubmit.text = "Finish"
+                        binding.btnSubmit.text = getString(R.string.finish)
                     } else {
-                        binding.btnSubmit.text = "Go to Next question"
+                        binding.btnSubmit.text = getString(R.string.nextQuestion)
                     }
                     mSelectedOptionPosition = 0
-
                 }
             }
         }

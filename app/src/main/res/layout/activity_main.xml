@@ -68,7 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/name"
-                    android:imeOptions="actionGo"
+                    android:imeOptions="actionDone"
                     android:inputType="textCapWords"
                     android:textColor="@color/grey"
                     android:textColorHint="@color/light_grey" />
